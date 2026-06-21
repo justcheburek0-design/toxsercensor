@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "toxsercensor",
+  "version": "${version}",
+  "name": "Toxser Censor",
+  "description": "Server-side chat censor with full banwords and partial profanity masking.",
+  "authors": [
+    "Vadim"
+  ],
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "ru.vadim.toxsercensor.ToxserCensorMod"
+    ]
+  },
+  "mixins": [
+    "toxsercensor.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.1.2",
+    "java": ">=25"
+  }
+}
