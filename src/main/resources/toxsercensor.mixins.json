@@ -4,7 +4,10 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "PlayerManagerMixin",
-    "CommandManagerMixin"
+    "CommandManagerMixin",
+    "PlayerLoginMixin",
+    "SignTextMixin",
+    "AnvilMenuMixin"
   ],
   "injectors": {
     "defaultRequire": 1
