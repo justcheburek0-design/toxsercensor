@@ -159,6 +159,7 @@ public final class FilterConfigManager {
         FilterConfig sanitized = new FilterConfig();
         sanitized.banwords = normalize(source == null ? null : source.banwords);
         sanitized.partialWords = normalize(source == null ? null : source.partialWords);
+        sanitized.roots = normalize(source == null ? null : source.roots);
         return sanitized;
     }
 
