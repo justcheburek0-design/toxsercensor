@@ -120,7 +120,8 @@ public final class FilterConfigManager {
         try {
             Files.createDirectories(CONFIG_PATH.getParent());
             try (Writer writer = Files.newBufferedWriter(CONFIG_PATH, StandardCharsets.UTF_8)) {
-                YAML.dump(config, writer);
+                String dumped = YAML.dumpAsMap(config);
+                writer.write(dumped);
             }
             lastSaveTime = System.currentTimeMillis();
         } catch (IOException e) {
