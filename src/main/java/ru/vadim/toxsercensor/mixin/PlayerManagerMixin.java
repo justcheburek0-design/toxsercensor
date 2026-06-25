@@ -1,5 +1,6 @@
 package ru.vadim.toxsercensor.mixin;
 
+import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.PlayerChatMessage;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
@@ -20,20 +21,20 @@ public abstract class PlayerManagerMixin {
             at = @At("HEAD"),
             argsOnly = true
     )
-    private PlayerChatMessage toxsercensor$filterChatMessage(PlayerChatMessage message, ServerPlayer player) {
+    private PlayerChatMessage toxsercensor$filterChatMessage(PlayerChatMessage currentMessage, PlayerChatMessage originalMessage, ServerPlayer player, ChatType.Bound bound) {
         // Check whitelist via message sender UUID
         UUID senderUuid = null;
-        if (message.link() != null && message.link().sender() != null) {
-            senderUuid = message.link().sender();
+        if (currentMessage.link() != null && currentMessage.link().sender() != null) {
+            senderUuid = currentMessage.link().sender();
             if (FilterConfigManager.isWhitelisted(senderUuid.toString())) {
-                return message;
+                return currentMessage;
             }
         }
 
-        String original = message.signedBody().content();
+        String original = currentMessage.signedBody().content();
         String filtered = ChatSanitizer.sanitize(original, FilterConfigManager.get());
         if (filtered.equals(original)) {
-            return message;
+            return currentMessage;
         }
 
         // Log violation
@@ -46,6 +47,6 @@ public abstract class PlayerManagerMixin {
             ViolationTracker.getInstance().recordViolation(senderUuid);
         }
 
-        return PlayerChatMessage.unsigned(message.link().sender(), filtered);
+        return PlayerChatMessage.unsigned(currentMessage.link().sender(), filtered);
     }
 }
